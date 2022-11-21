@@ -8,10 +8,7 @@ const LoginPage = lazy(() => import("../pages/authentication-pages/LoginPage"));
 const AuthenticationRoute = () => {
   return (
     <Routes>
-      <Route
-        path="/login"
-        element={<AuthenticationLayout></AuthenticationLayout>}
-      >
+      <Route path="/" element={<AuthenticationLayout></AuthenticationLayout>}>
         <Route path="/login" element={<LoginPage></LoginPage>}></Route>
       </Route>
     </Routes>

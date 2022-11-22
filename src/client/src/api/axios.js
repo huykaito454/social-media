@@ -1,9 +1,9 @@
-const { default: axios } = require("axios");
-export default axios.create({
-  baseURL: "http://localhost:8000",
+import axios from "axios";
+export const publicAxios = axios.create({
+  baseURL: "http://localhost:8080",
 });
 export const privateAxios = axios.create({
-  baseURL: "http://localhost:8000",
+  baseURL: "http://localhost:8080",
   headers: {
     "Content-Type": "application/json",
   },

@@ -21,4 +21,10 @@
   .text-3xs {
     font-size: 0.56rem;
   }
+  .button {
+    @apply w-full py-2 px-4 bg-secondary mt-2 text-white text-xs rounded-sm hover:bg-secondaryHover;
+  }
+  .a {
+    color: #8c9cf5;
+  }
 }

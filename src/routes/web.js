@@ -1,12 +1,9 @@
 import express from "express";
-
+import * as authController from "../controllers/authController";
 let router = express.Router();
 let initRouteWeb = (server) => {
-  //   router.post("/trunk/registry", RegistryTrunk);
-  //   router.post("/trunk/update", UpdateTrunk);
-
-  //   router.post("/campaign/call", CampaignCall);
-  //   router.post("/campaign/assign", AssignCampaignFlow);
+  router.post("/register", authController.register);
+  router.post("/login", authController.login);
   return server.use("/", router);
 };
 export default initRouteWeb;

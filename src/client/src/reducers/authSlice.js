@@ -1,12 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   handleAuthLogin,
+  handleAuthRegister,
   handleGetUserInfo,
   handleRefreshToken,
 } from "../actions/authAction";
 const initialState = {
   user: undefined,
   accessToken: null,
+  status: null,
+  message: "",
+  loading: false,
 };
 const authSlice = createSlice({
   name: "auth",
@@ -24,10 +28,22 @@ const authSlice = createSlice({
     builder
       .addCase(handleAuthLogin.fulfilled, (state, action) => {
         state.accessToken = action.payload.accessToken;
+        state.loading = false;
+      })
+      .addCase(handleAuthLogin.pending, (state, action) => {
+        state.loading = true;
       })
       .addCase(handleGetUserInfo.fulfilled, (state, action) => {
         state.user = action.payload.user;
         state.accessToken = action.payload.accessToken;
+      })
+      .addCase(handleAuthRegister.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(handleAuthRegister.fulfilled, (state, action) => {
+        state.message = action.payload.message;
+        state.status = action.payload.status;
+        state.loading = false;
       })
       .addCase(handleRefreshToken.fulfilled, (state, action) => {
         state.accessToken = action.payload.accessToken;

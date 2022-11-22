@@ -31,12 +31,7 @@ const LoginPage = () => {
   } = useForm({ resolver: yupResolver(schema) });
   const { user } = useSelector((state) => state.auth);
   const handleLogin = (values, e) => {
-    e.preventDefault();
-    dispatch(handleAuthLogin());
-    if (user) {
-      document.title = "Hilu";
-      navigate("/");
-    }
+    dispatch(handleAuthLogin(values));
   };
   useEffect(() => {
     document.title = "Log in to Hilu";
@@ -44,7 +39,7 @@ const LoginPage = () => {
       document.title = "Hilu";
       navigate("/");
     }
-  }, []);
+  }, [user]);
   return (
     <form
       className="bg-white p-8 rounded-sm shadow-sm flex flex-col gap-2 w-[320px] h-full"
@@ -79,16 +74,19 @@ const LoginPage = () => {
           <p className="text-3xs text-red-400"> * {errors.password.message}</p>
         )}
       </div>
-      <button
-        className="w-full py-2 px-4 bg-secondary mt-2 text-white text-xs rounded-sm"
-        type="submit"
-        disabled={isSubmitting}
-      >
+      <button className="button" type="submit" disabled={isSubmitting}>
         Log In
       </button>
       <span className="text-xs mt-3">
         Don't have an account?{" "}
-        <span className="text-primary cursor-pointer">Sign up</span>
+        <span
+          className="text-primary cursor-pointer"
+          onClick={() => {
+            navigate("/register");
+          }}
+        >
+          Sign up
+        </span>
       </span>
       <span className="text-xxs  mt-auto text-gray-300 select-none">
         © 2022 Hilu from Hyu

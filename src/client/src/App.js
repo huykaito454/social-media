@@ -1,9 +1,8 @@
 import React, { Suspense, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { handleRefreshToken } from "./actions/authAction";
-import { authUpdateUser } from "./reducers/authSlice";
 import AuthenticationRoute from "./route/AuthenticationRoute";
 import UserRouter from "./route/UserRouter";
+import { authRefreshToken, authUpdateUser } from "./sagas/auth/auth-slice";
 import { getToken, logOut } from "./utils/auth";
 function App() {
   const { user } = useSelector((state) => state.auth);
@@ -14,17 +13,20 @@ function App() {
     } else {
       const { refresh_token } = getToken();
       if (refresh_token) {
-        dispatch(handleRefreshToken(refresh_token));
+        dispatch(authRefreshToken({ refreshToken: refresh_token }));
       } else {
         logOut();
       }
     }
-  }, []);
+  }, [dispatch]);
   return (
     <>
       <Suspense fallback={<></>}>
-        <AuthenticationRoute></AuthenticationRoute>
-        <UserRouter></UserRouter>
+        {user ? (
+          <UserRouter></UserRouter>
+        ) : (
+          <AuthenticationRoute></AuthenticationRoute>
+        )}
       </Suspense>
     </>
   );

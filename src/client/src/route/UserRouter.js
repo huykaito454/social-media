@@ -9,7 +9,6 @@ const UserRouter = () => {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
   useEffect(() => {
-    console.log(user);
     if (!user) {
       navigate("/login");
     }

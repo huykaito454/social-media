@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import logoPrimary from "../../../assets/images/logo/logo-black.png";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { authLogin } from "../../../sagas/auth/auth-slice";
@@ -15,7 +14,7 @@ const LoginPage = () => {
   const {
     control,
     handleSubmit,
-    formState: { errors, isValid, isSubmitting },
+    formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
   const { user } = useSelector((state) => state.auth);
   const handleLogin = (values, e) => {
@@ -25,24 +24,27 @@ const LoginPage = () => {
   useEffect(() => {
     document.title = "Log in to Hilu";
     if (user) {
-      document.title = "Hilu";
       navigate("/");
     }
+    return () => {
+      document.title = "Hilu";
+    };
   }, [user]);
 
   return (
     <form
-      className="bg-white p-8 rounded-sm shadow-sm flex flex-col gap-2 w-[350px] h-full"
+      className="absolute bg-white p-6 sm:p-12 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg shadow-sm flex flex-col gap-y-4 items-center min-w-[350px] sm:min-w-[555px]"
       onSubmit={handleSubmit(handleLogin)}
     >
-      <div className="flex items-stretch justify-center w-full gap-3 mt-2 mb-8 select-none">
-        <img src={logoPrimary} alt="" className="w-10 h-10" />
-        <h1 className="text-4xl text-black">Hilu</h1>
-      </div>
-      <div>
+      <span className="text-2xl font-semibold mb-5">Welcome Back!</span>
+      <p className="text-sm text-text2 mb-3">Sign in with email</p>
+      <div className="w-full flex flex-col gap-y-2">
+        <label htmlFor="email" className="label">
+          Email address
+        </label>
         <Input
           type="email"
-          placeholder="Email"
+          placeholder="example@gmail.com"
           name="email"
           control={control}
         ></Input>
@@ -50,23 +52,26 @@ const LoginPage = () => {
           <p className="text-xs text-red-400 mt-1"> * {errors.email.message}</p>
         )}
       </div>
-      <div className="relative">
+      <div className="relative w-full flex flex-col gap-y-2">
+        <label htmlFor="password" className="label">
+          Password
+        </label>
         <Input
           type={isShowPassword ? "text" : "password"}
-          placeholder="Password"
+          placeholder="Enter Password"
           name="password"
           control={control}
         ></Input>
         {isShowPassword ? (
           <i
-            className="fas fa-eye cursor-pointer text-sm text-gray-500 absolute top-1/4 right-3"
+            className="fas fa-eye cursor-pointer text-sm text-gray-500 absolute top-[58%] right-6"
             onClick={() => {
               setIsShowPassword(!isShowPassword);
             }}
           ></i>
         ) : (
           <i
-            className="fas fa-eye-slash cursor-pointer text-sm text-gray-500 absolute top-1/4 right-3"
+            className="fas fa-eye-slash cursor-pointer text-sm text-gray-500 absolute top-[58%] right-6"
             onClick={() => {
               setIsShowPassword(!isShowPassword);
             }}
@@ -76,7 +81,10 @@ const LoginPage = () => {
           <p className="text-xs text-red-400"> * {errors.password.message}</p>
         )}
       </div>
-      <button className="button" type="submit">
+      <span className="text-primary2 w-full text-end cursor-pointer text-sm">
+        Forgot password
+      </span>
+      <button className="button-auth" type="submit">
         Log In
       </button>
       <span className="text-sm mt-3">
@@ -90,7 +98,7 @@ const LoginPage = () => {
           Sign up
         </span>
       </span>
-      <span className="text-xxs  mt-auto text-gray-300 select-none">
+      <span className="text-xs mt-auto text-gray-300 select-none">
         © 2022 Hilu from Hyu
       </span>
     </form>

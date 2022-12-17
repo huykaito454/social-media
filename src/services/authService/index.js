@@ -22,7 +22,7 @@ const register = (data) => {
           fullName: data.fullName,
           userName: data.userName,
           isPublish: true,
-          deconste: false,
+          delete: false,
           roleId: 2,
           createdAt: new Date(),
           updateAt: new Date(),

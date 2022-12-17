@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import logoPrimary from "../../../assets/images/logo/logo-black.png";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { authRegister } from "../../../sagas/auth/auth-slice";
@@ -15,38 +14,33 @@ const RegisterPage = () => {
   const {
     control,
     handleSubmit,
-    formState: { errors, isValid, isSubmitting },
+    formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
   const handleRegister = (values, e) => {
     dispatch(authRegister(values));
   };
   useEffect(() => {
     document.title = "Sign up to Hilu";
-    if (auth.user || auth.status == 200) {
-      document.title = "Hilu";
-      navigate("/login");
+    if (auth.user) {
+      navigate("/");
     }
+    return () => {
+      document.title = "Hilu";
+    };
   }, [auth]);
   return (
     <form
-      className="bg-white p-8 rounded-sm shadow-sm flex flex-col gap-2 w-[350px] h-full"
+      className="absolute bg-white p-6 sm:p-12 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg shadow-sm flex flex-col gap-y-4 items-center min-w-[350px] sm:min-w-[555px]"
       onSubmit={handleSubmit(handleRegister)}
     >
-      <div className="flex items-center justify-center w-full mt-2 mb-2 select-none">
-        <div className="w-full flex items-stretch justify-center gap-2">
-          <img src={logoPrimary} alt="" className="w-8 h-8" />
-          <h1 className="text-3xl text-black">Hilu</h1>
-        </div>
-      </div>
-      <div className="flex items-center justify-center mb-6">
-        <span className="text-xs text-textGray">
-          Sign up to connect with the group for you.
-        </span>
-      </div>
-      <div>
+      <span className="text-2xl font-semibold mb-5">Sign Up!</span>
+      <div className="w-full flex flex-col gap-y-2">
+        <label htmlFor="email" className="label">
+          Email address
+        </label>
         <Input
           type="email"
-          placeholder="Email"
+          placeholder="example@gmail.com"
           name="email"
           control={control}
         ></Input>
@@ -54,10 +48,13 @@ const RegisterPage = () => {
           <p className="text-xs text-red-400 mt-1"> * {errors.email.message}</p>
         )}
       </div>
-      <div>
+      <div className="w-full flex flex-col gap-y-2">
+        <label htmlFor="fullName" className="label">
+          Full name
+        </label>
         <Input
           type="text"
-          placeholder="Full Name"
+          placeholder="Nguyen Trong Huy"
           name="fullName"
           control={control}
         ></Input>
@@ -65,10 +62,13 @@ const RegisterPage = () => {
           <p className="text-xs text-red-400"> * {errors.fullName.message}</p>
         )}
       </div>
-      <div>
+      <div className="w-full flex flex-col gap-y-2">
+        <label htmlFor="userName" className="label">
+          User Name
+        </label>
         <Input
           type="text"
-          placeholder="User Name"
+          placeholder="nthuy"
           name="userName"
           control={control}
         ></Input>
@@ -76,23 +76,26 @@ const RegisterPage = () => {
           <p className="text-xs text-red-400"> * {errors.userName.message}</p>
         )}
       </div>
-      <div className="relative">
+      <div className="relative w-full flex flex-col gap-y-2">
+        <label htmlFor="password" className="label">
+          Password
+        </label>
         <Input
           type={isShowPassword ? "text" : "password"}
-          placeholder="Password"
+          placeholder="Create a password"
           name="password"
           control={control}
         ></Input>
         {isShowPassword ? (
           <i
-            className="fas fa-eye cursor-pointer text-sm text-gray-500 absolute top-1/4 right-3"
+            className="fas fa-eye cursor-pointer text-sm text-gray-500 absolute top-[58%] right-6"
             onClick={() => {
               setIsShowPassword(!isShowPassword);
             }}
           ></i>
         ) : (
           <i
-            className="fas fa-eye-slash cursor-pointer text-sm text-gray-500 absolute top-1/4 right-3"
+            className="fas fa-eye-slash cursor-pointer text-sm text-gray-500 absolute top-[58%] right-6"
             onClick={() => {
               setIsShowPassword(!isShowPassword);
             }}
@@ -102,7 +105,7 @@ const RegisterPage = () => {
           <p className="text-xs text-red-400"> * {errors.password.message}</p>
         )}
       </div>
-      <button className="button" type="submit">
+      <button className="button-auth" type="submit">
         Sign up
       </button>
       <span className="mt-3 text-sm">
@@ -110,13 +113,13 @@ const RegisterPage = () => {
         <span
           className="text-primary cursor-pointer"
           onClick={() => {
-            navigate("/login");
+            navigate("/");
           }}
         >
           Log in
         </span>
       </span>
-      <span className="text-xxs  mt-auto text-gray-300 select-none">
+      <span className="text-xs  mt-auto text-gray-300 select-none">
         © 2022 Hilu from Hyu
       </span>
     </form>

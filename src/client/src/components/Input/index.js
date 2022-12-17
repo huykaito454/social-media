@@ -9,7 +9,12 @@ const Input = ({ control, ...props }) => {
   });
   return (
     <>
-      <input className="input" type="text" {...field} {...props} />
+      <input
+        className="outline-none py-3 px-6 rounded-lg border w-full disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none"
+        type="text"
+        {...field}
+        {...props}
+      />
     </>
   );
 };

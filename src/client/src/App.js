@@ -1,5 +1,6 @@
 import React, { Suspense, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Loading from "./components/loading";
 import AuthenticationRoute from "./route/AuthenticationRoute";
 import UserRouter from "./route/UserRouter";
 import { authRefreshToken, authUpdateUser } from "./sagas/auth/auth-slice";
@@ -21,7 +22,7 @@ function App() {
   }, [dispatch]);
   return (
     <>
-      <Suspense fallback={<></>}>
+      <Suspense fallback={<Loading></Loading>}>
         {user ? (
           <UserRouter></UserRouter>
         ) : (

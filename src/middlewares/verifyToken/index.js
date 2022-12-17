@@ -6,8 +6,7 @@ const verifyToken = (req, res, next) => {
   // [Bearers,token]
   const token = authHeader && authHeader.split(" ")[1];
   console.log("verifyToken ~ token", token);
-
-  if (!token) return res.sendStatus(401);
+  if (!token) return res.sendStatus(403);
   try {
     const decoded = jwt.verify(token, Token.ACCESS_TOKEN_SECRET);
     req.id = decoded.id;

@@ -32,6 +32,7 @@ const authSlice = createSlice({
     },
     authRefreshToken: (state, action) => ({}),
     authLogOut: (state, action) => ({}),
+    authGetUser: (state, action) => ({}),
   },
 });
 export const {

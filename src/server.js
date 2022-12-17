@@ -14,7 +14,7 @@ app.use(
 );
 app.use(express.urlencoded());
 app.use(express.json());
-
+app.use("/assets", express.static("src/assets"));
 authRoute(app);
 app.use("/v1", apiV1);
 let port = process.env.PORT;

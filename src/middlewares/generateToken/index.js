@@ -3,6 +3,7 @@ import { Token } from "../../constants";
 
 const generateToken = (payload) => {
   const { id, email, fullName, userName } = payload;
+  console.log(payload);
   const accessToken = JWT.sign(
     { id, email, fullName, userName },
     Token.ACCESS_TOKEN_SECRET,

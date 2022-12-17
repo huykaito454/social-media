@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import { call, put } from "redux-saga/effects";
 import {
   requestAuthGetUser,
@@ -26,7 +25,7 @@ function* handleAuthLogin({ payload }) {
     if (data?.status === 200) {
       saveToken(data.accessToken, data.refreshToken);
       yield call(handleAuthGetUser, { payload: data.accessToken });
-      toastSuccess(data?.message);
+      window.location.reload(false);
     }
   } catch (error) {
     toastError(error?.response?.data?.message);
@@ -50,7 +49,6 @@ function* handleAuthRefreshToken({ payload }) {
     const { data } = yield call(requestAuthRefreshToken, payload);
     if (data.status === 200) {
       saveToken(data.accessToken, data.refreshToken);
-      console.log(data);
       yield call(authUpdateUser, {
         payload: { accessToken: data.accessToken },
       });
@@ -63,7 +61,7 @@ function* handleAuthRefreshToken({ payload }) {
 function* handleAuthLogOut() {
   yield put(
     authUpdateUser({
-      user: undefined,
+      user: null,
       accessToken: null,
     })
   );
